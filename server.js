@@ -70,7 +70,7 @@ async function start() {
         ],
       });
 
-      res.send("IP + Location logged");
+      res.send("get-trolled");
     });
 
     app.listen(PORT, () => {
