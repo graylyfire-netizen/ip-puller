@@ -17,11 +17,15 @@ async function start() {
     const collection = db.collection("ips");
 
     app.get("/", async (req, res) => {
-      let ip =
-        req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+      let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
-      // Fix IPv6 format
-      if (ip.includes("::ffff:")) {
+      // ✅ FIX: take first IP if multiple exist
+      if (ip && ip.includes(",")) {
+        ip = ip.split(",")[0].trim();
+      }
+
+      // ✅ Clean IPv6 format
+      if (ip && ip.includes("::ffff:")) {
         ip = ip.split("::ffff:")[1];
       }
 
